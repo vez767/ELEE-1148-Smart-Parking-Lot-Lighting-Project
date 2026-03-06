@@ -2,6 +2,7 @@
 const int trigPin = 9;
 const int echoPin = 10;
 const int LEDPIN = 6;
+const int LDR_PIN = A0;
 
 float duration, distance; 
 
@@ -27,6 +28,10 @@ digitalWrite(trigPin, LOW);
   Serial.println(distance);
   delay(100);
 
+  int ldrValue = analogRead(LDR_PIN); 
+  Serial.print("LDR Value: ");
+  Serial.println(ldrValue);
+  delay(1000);
   analogWrite(LEDPIN, 255);   
  
 }
