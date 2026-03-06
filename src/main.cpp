@@ -17,6 +17,17 @@ int digital_filter(){
   return avg;
 }
 
+int distance_filter(){
+  distance = (duration*.0343)/2;
+  delay(50);
+  int total_distance = 0;
+
+  for(int i = 0; i < 3; i++){
+    total_distance += distance;
+  }
+  int avg_dis = total_distance/3;
+  return avg_dis;
+}
 
 void setup() {
 Serial.begin(9600);
@@ -34,14 +45,18 @@ digitalWrite(trigPin, LOW);
   digitalWrite(trigPin, LOW);
 
   duration = pulseIn(echoPin, HIGH);
-  distance = (duration*.0343)/2;
-  delay(500);
+
+  int avg_distance = distance_filter();
+
   Serial.print("Distance: ");
-  Serial.println(distance);
-  delay(100); 
+  Serial.println(avg_distance);
+
   int avg_ldrValue = digital_filter();
+
   Serial.print("LDR Value: ");
   Serial.println(avg_ldrValue);
+  Serial.println(" ");
+
   delay(1000);
   analogWrite(LEDPIN, 255);   
  
