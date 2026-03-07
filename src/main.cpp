@@ -5,6 +5,7 @@ const int LEDPIN = 6;
 const int LDR_PIN = A0;
 
 float duration, distance; 
+unsigned long lastTriggerTime = 0;
 
 int digital_filter(){
   long total_ldrValue = 0;
@@ -38,15 +39,18 @@ void LED_state(int ambient_light, int proximity){
   }
   int avg_ambient_light = total_ambient_light/10;
 
-  analogWrite(LEDPIN, 0); 
-
   if(proximity < 16){
-  if(avg_ambient_light >= 200) analogWrite(LEDPIN, 0); 
-  else if(avg_ambient_light >= 150) analogWrite(LEDPIN, 63); 
-  else if(avg_ambient_light >= 100) analogWrite(LEDPIN, 127); 
-  else if(avg_ambient_light >= 50) analogWrite(LEDPIN, 191); 
-  else analogWrite(LEDPIN, 255); 
+ lastTriggerTime = millis();
+  }
+
+  if(millis() - lastTriggerTime < 60000){
+   if(avg_ambient_light >= 200) analogWrite(LEDPIN, 0); 
+   else if(avg_ambient_light >= 150) analogWrite(LEDPIN, 63); 
+   else if(avg_ambient_light >= 100) analogWrite(LEDPIN, 127); 
+   else if(avg_ambient_light >= 50) analogWrite(LEDPIN, 191); 
+   else analogWrite(LEDPIN, 255); 
 }
+else  analogWrite(LEDPIN, 0); 
 }
 
 void setup() {
