@@ -17,6 +17,37 @@ int digital_filter(){
   return avg;
 }
 
+int distance_filter(){
+  distance = (duration*.0343)/2;
+  delay(50);
+  int total_distance = 0;
+
+  for(int i = 0; i < 3; i++){
+    total_distance += distance;
+  }
+  int avg_dis = total_distance/3;
+  return avg_dis;
+}
+
+
+void LED_state(int ambient_light, int proximity){
+  int total_ambient_light = 0;
+
+  for(int i = 0; i < 9; i++){
+    total_ambient_light += ambient_light;
+  }
+  int avg_ambient_light = total_ambient_light/10;
+
+  analogWrite(LEDPIN, 0); 
+
+  if(proximity < 16){
+  if(avg_ambient_light >= 200) analogWrite(LEDPIN, 0); 
+  else if(avg_ambient_light >= 150) analogWrite(LEDPIN, 63); 
+  else if(avg_ambient_light >= 100) analogWrite(LEDPIN, 127); 
+  else if(avg_ambient_light >= 50) analogWrite(LEDPIN, 191); 
+  else analogWrite(LEDPIN, 255); 
+}
+}
 
 void setup() {
 Serial.begin(9600);
@@ -34,15 +65,19 @@ digitalWrite(trigPin, LOW);
   digitalWrite(trigPin, LOW);
 
   duration = pulseIn(echoPin, HIGH);
-  distance = (duration*.0343)/2;
-  delay(500);
+
+  int avg_distance = distance_filter();
+
   Serial.print("Distance: ");
-  Serial.println(distance);
-  delay(100); 
+  Serial.println(avg_distance);
+
   int avg_ldrValue = digital_filter();
+
   Serial.print("LDR Value: ");
   Serial.println(avg_ldrValue);
+  Serial.println(" ");
+
+  LED_state(avg_ldrValue, avg_distance);
+  
   delay(1000);
-  analogWrite(LEDPIN, 255);   
- 
 }
