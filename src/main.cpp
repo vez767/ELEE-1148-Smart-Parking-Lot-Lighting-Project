@@ -44,11 +44,26 @@ void LED_state(int ambient_light, int proximity){
   }
 
   if(millis() - lastTriggerTime < 60000){
-   if(avg_ambient_light >= 200) analogWrite(LEDPIN, 0); 
-   else if(avg_ambient_light >= 150) analogWrite(LEDPIN, 63); 
-   else if(avg_ambient_light >= 100) analogWrite(LEDPIN, 127); 
-   else if(avg_ambient_light >= 50) analogWrite(LEDPIN, 191); 
-   else analogWrite(LEDPIN, 255); 
+   if(avg_ambient_light >= 200){
+     analogWrite(LEDPIN, 0); 
+     Serial.println("LED 0");
+   }
+   else if(avg_ambient_light >= 150){
+     analogWrite(LEDPIN, 63);
+    Serial.println("LED 63");
+   }
+   else if(avg_ambient_light >= 100){
+    analogWrite(LEDPIN, 127);
+    Serial.println("LED 127");
+   }
+   else if(avg_ambient_light >= 50){
+    analogWrite(LEDPIN, 191);
+    Serial.println("LED 191");
+   }
+   else{
+    analogWrite(LEDPIN, 255);
+    Serial.println("LED 255");
+   }
 }
 else  analogWrite(LEDPIN, 0); 
 }
@@ -79,9 +94,9 @@ digitalWrite(trigPin, LOW);
 
   Serial.print("LDR Value: ");
   Serial.println(avg_ldrValue);
-  Serial.println(" ");
+ 
 
   LED_state(avg_ldrValue, avg_distance);
-  
+  Serial.println(" ");
   delay(1000);
 }
