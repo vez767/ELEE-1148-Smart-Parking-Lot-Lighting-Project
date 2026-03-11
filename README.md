@@ -40,7 +40,7 @@ The core idea is to provide levels of illumination that adapt to the environment
 ## Current Limitations
 * **Hardware Spikes:** Due to the nature of ultrasonic waves, the sensor may occasionally report out-of-context values (e.g., 1000cm+) if the signal fails to reflect. For best results, ensure objects are **flat and horizontal** to the sensor.
 * **Calibration:** Current light thresholds (e.g., >=150) are placeholders used for testing logic; real-world calibration will be addressed in v1.1.
-* **Conceptual Energy Saving: ** While brightness dimming saves power, the Arduino currently does not utilize interrupts or sleep modes. The energy conservation is currently conceptual. Implementing deep-sleep cycles and hardware-interrupt triggers is a major milestone targeted for v2.0.
+* **Conceptual Energy Saving:** While brightness dimming saves power, the Arduino currently does not utilize interrupts or sleep modes. The energy conservation is currently conceptual. Implementing deep-sleep cycles and hardware-interrupt triggers is a major milestone targeted for v2.0.
 
 ##  Contributors
 This project is a joint work with [@Fatmanur0001](https://github.com/Fatmanur0001). Both contributors are entitled to all claims and rights regarding the code and design.
